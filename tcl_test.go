@@ -41,6 +41,8 @@ func TestTclTest(t *testing.T) {
 		// # memory.  Make sure the host has at least 8GB available before running
 		// # this test.
 		blacklist["bigsort.test"] = struct{}{}
+	case "loong64":
+		blacklist["writecrash.test"] = struct{}{}	// SIGABRT: abort
 	}
 	switch runtime.GOOS {
 	case "windows":

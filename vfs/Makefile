@@ -23,6 +23,8 @@ build_all_targets:
 	GOOS=linux GOARCH=arm go test -c -o /dev/null
 	GOOS=linux GOARCH=arm64 go build -v ./...
 	GOOS=linux GOARCH=arm64 go test -c -o /dev/null
+	GOOS=linux GOARCH=loong64 go build -v ./...
+	GOOS=linux GOARCH=loong64 go test -c -o /dev/null
 	GOOS=linux GOARCH=ppc64le go build -v ./...
 	GOOS=linux GOARCH=ppc64le go test -c -o /dev/null
 	GOOS=linux GOARCH=riscv64 go build -v ./...
@@ -55,6 +57,7 @@ editor:
 	ccgo -o vfs_$(shell go env GOOS)_$(shell go env GOARCH).go c/vfs.c -I../testdata/sqlite-amalgamation-3390300 \
 		-lmodernc.org/sqlite/lib -pkgname vfs -nocapi \
 		-export-externs X -D SQLITE_OS_UNIX \
+		-ignore-unsupported-alignment \
 		-hide=vfsFullPathname \
 		-hide=vfsOpen \
 		-hide=vfsRead \

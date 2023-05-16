@@ -49,6 +49,7 @@ build_all_targets:
 	GOOS=linux GOARCH=amd64 go test -c -o /dev/null
 	GOOS=linux GOARCH=arm go test -c -o /dev/null
 	GOOS=linux GOARCH=arm64 go test -c -o /dev/null
+	GOOS=linux GOARCH=loong64 go test -c -o /dev/null
 	GOOS=linux GOARCH=ppc64le go test -c -o /dev/null
 	GOOS=linux GOARCH=riscv64 go test -c -o /dev/null
 	GOOS=linux GOARCH=s390x go test -c -o /dev/null
@@ -140,6 +141,12 @@ linux_arm64:
 	CCGO_CPP=aarch64-linux-gnu-cpp TARGET_GOARCH=arm64 TARGET_GOOS=linux go generate 2>&1 | tee log-generate
 	GOOS=linux GOARCH=arm64 go test -c -o /dev/null
 
+# loong64
+linux_loong64:
+	@echo "Should be executed only on linux/amd64."
+	CCGO_CPP=loong64-linux-gnu-cpp TARGET_GOARCH=loong64 TARGET_GOOS=linux go generate 2>&1 | tee log-generate
+	GOOS=linux GOARCH=loong64 go test -c -o /dev/null
+
 # 3900x
 linux_ppc64le:
 	@echo "Should be executed only on linux/amd64."
@@ -170,7 +177,7 @@ openbsd_arm64:
 	GOGC=10 GOMEMLIMIT=6GiB go generate 2>&1 | tee log-generate
 	go test -c -o /dev/null
 
-generate_all_targets_on_linux_amd64: linux_amd64 linux_386 linux_arm linux_arm64 linux_s390x linux_ppc64le linux_riscv64 windows_amd64 windows_arm64 #TODO windows_386
+generate_all_targets_on_linux_amd64: linux_amd64 linux_386 linux_arm linux_arm64 linux_s390x linux_ppc64le linux_riscv64 linux_loong64 windows_amd64 windows_arm64 #TODO windows_386
 	gofmt -l -s -w .
 	echo done
 
